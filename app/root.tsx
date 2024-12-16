@@ -36,6 +36,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <header>
+          <span className="logo" role="img" aria-label="music notes">
+            🎶
+          </span>
+          <div className="masthead">
+            <h1>Music</h1>
+            <p>
+              Take a look through this list and you might just find your new
+              favorite artist.
+            </p>
+          </div>
+        </header>
         {children}
         <ScrollRestoration />
         <Scripts />

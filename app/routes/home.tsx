@@ -1,6 +1,12 @@
 import { getArtists } from "~/models/artist";
 import type { Route } from "./+types/home";
-import { Form, useNavigation } from "react-router";
+import {
+  Form,
+  Link,
+  useLocation,
+  useNavigation,
+  useSearchParams,
+} from "react-router";
 // import { createArtists } from "~/models/artist";
 
 export function meta({}: Route.MetaArgs) {
@@ -10,8 +16,22 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader() {
-  let artists = await getArtists();
+export async function loader({ request }: Route.LoaderArgs) {
+  let searchParams = new URL(request.url).searchParams;
+  let q = searchParams.get("q");
+
+  let result = await getArtists();
+  let artists;
+
+  if (q) {
+    // TODO: Search by genre
+    artists = result.filter((item) =>
+      item.name.toLowerCase().includes(q.toLowerCase())
+    );
+    return artists;
+  }
+
+  artists = result;
 
   return artists;
 }
@@ -42,7 +62,7 @@ interface Artist {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   let artists = loaderData;
-  console.log({ artists });
+  // console.log({ artists });
 
   let navigation = useNavigation();
   let isSubmitting = navigation.state === "submitting";
@@ -65,16 +85,39 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 }
 
 function Search() {
+  let location = useLocation();
+
+  let [searchParams] = useSearchParams();
+  let q = searchParams.get("q") || "";
   return (
     <div className="search">
       <form>
         <label htmlFor="keyword-search">
           Search artists by name or genre:{" "}
         </label>
-        <input type="search" name="q" id="keyword-search" />
+        <input
+          type="search"
+          name="q"
+          id="keyword-search"
+          className="px-4 py-2 rounded-md"
+          defaultValue={q}
+        />
 
-        <button type="submit">Search</button>
+        <button
+          type="submit"
+          className="bg-rose-400 hover:bg-rose-600 transition ease-in-out duration-300 active:scale-[.97] px-4 py-2 rounded-md"
+        >
+          Search
+        </button>
       </form>
+      {q.length > 1 ? (
+        <div className="search-details">
+          <span>Artists with name or genre matching “{q}”</span>
+          <Link to={location.pathname} prefetch="intent">
+            &times; clear search
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -89,7 +132,7 @@ function ArtistList({ artists }: { artists: Array<Artist> }) {
       {artists.map((item) => (
         <div className="artist" key={item.id}>
           <img src={item.images[0].url} alt={item.name} />
-          <div>
+          <div className="details">
             <h2>{item.name}</h2>
             <p>
               <a href={item.url}>View on Spotify</a>

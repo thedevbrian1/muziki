@@ -60,6 +60,7 @@ header {
   display: flex;
   gap: 1rem;
   padding: 0.5rem 0.75rem;
+  color: black;
 }
 
 .search form {
@@ -152,6 +153,7 @@ header {
   position: relative;
   transition: 100ms all linear;
   z-index: 5;
+  color: black;
 }
 
 .artist:is(:hover, :focus-within) .details {
