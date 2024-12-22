@@ -123,7 +123,7 @@ function Search() {
 }
 
 function GenrePicker() {
-  return <div></div>;
+  return <nav className="genre-filters"></nav>;
 }
 
 function ArtistList({ artists }: { artists: Array<Artist> }) {
