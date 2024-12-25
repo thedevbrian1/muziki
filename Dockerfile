@@ -9,7 +9,7 @@ WORKDIR /app
 RUN npm ci --omit=dev
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl sqlite3
+RUN apk update && apk add --no-cache openssl sqlite
 
 ADD prisma .
 RUN npx prisma generate
