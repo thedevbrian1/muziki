@@ -80,7 +80,7 @@ header {
   background: hsl(300deg 60% 94% / 0.9);
   border: 0;
   border-radius: 0.125rem;
-  color: inherit;
+  color: black;
   padding: 0.25rem;
   text-align: right;
   text-decoration: none;
@@ -104,7 +104,8 @@ header {
   background: transparent;
   border: 1px solid hsl(300deg 30% 94% / 1);
   border-radius: 0.125rem;
-  color: hsl(300deg 20% 44% / 1);
+  /* color: hsl(300deg 20% 44% / 1); */
+  color: white;
   font-size: 0.75rem;
   padding: 0.25rem;
 }
