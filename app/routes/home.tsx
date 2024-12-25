@@ -8,7 +8,6 @@ import {
   useSearchParams,
 } from "react-router";
 import { getGenres } from "~/models/genre";
-// import { createArtists } from "~/models/artist";
 
 export function meta({}: Route.MetaArgs) {
   return [
