@@ -11,7 +11,7 @@ primary_region = 'jnb'
   auto_rollback = true
   cmd = "start.sh"
   entrypoint = "sh"
-  
+
 [build]
 
 [http_service]
@@ -19,7 +19,7 @@ primary_region = 'jnb'
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
 
 [mounts]
