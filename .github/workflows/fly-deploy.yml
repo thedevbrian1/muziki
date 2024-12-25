@@ -1,0 +1,44 @@
+# See https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/
+
+name: Fly Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  # lint:
+  #   name: ⬣ ESLint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 🛑 Cancel Previous Runs
+  #       uses: styfle/cancel-workflow-action@latest # Update to latest version
+  #     - name: ⬇️ Checkout repo
+  #       uses: actions/checkout@v3
+  #     - name: ⎔ Setup Node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "18" # Update to the latest LTS version
+  #     - name: 📥 Download deps
+  #       uses: bahmutov/npm-install@latest # Update to latest version
+  #     - name: 🔬 Lint
+  #       run: npm run lint
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    concurrency: deploy-group # optional: ensure only one action runs at a time
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: npm install
+      # - name: Apply all pending migrations to the database
+      #   run: npx prisma migrate deploy && npx prisma generate
+      #   env:
+      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
