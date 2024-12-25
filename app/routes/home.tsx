@@ -79,7 +79,7 @@ interface Genre {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   let { artists, genres } = loaderData;
-  console.log({ artists });
+  // console.log({ artists });
 
   let genreTitles = genres.map((item) => item.title);
 
@@ -100,7 +100,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     index++;
   });
 
-  console.log({ genresArray });
+  // console.log({ genresArray });
 
   let navigation = useNavigation();
   let isSubmitting = navigation.state === "submitting";
