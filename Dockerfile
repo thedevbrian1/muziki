@@ -3,6 +3,9 @@ FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Remix"
 
+# Install openssl for Prisma
+RUN apt-get update && apt-get install -y openssl sqlite3
+
 FROM base AS development-dependencies-env
 COPY . /app
 WORKDIR /app
@@ -13,16 +16,15 @@ COPY ./package.json package-lock.json /app/
 WORKDIR /app
 RUN npm ci --omit=dev
 
-# Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl sqlite3
-
-ADD prisma .
-RUN npx prisma generate
-
 FROM base AS build-env
 COPY . /app/
 COPY --from=development-dependencies-env /app/node_modules /app/node_modules
 WORKDIR /app
+
+
+ADD prisma .
+RUN npx prisma generate
+
 RUN npm run build
 
 FROM base
