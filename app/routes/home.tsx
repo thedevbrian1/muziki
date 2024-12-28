@@ -1,12 +1,6 @@
-import { createArtists, getArtists } from "~/models/artist";
+import { getArtists } from "~/models/artist";
 import type { Route } from "./+types/home";
-import {
-  Form,
-  Link,
-  useLocation,
-  useNavigation,
-  useSearchParams,
-} from "react-router";
+import { Link, useLocation, useSearchParams } from "react-router";
 import { getGenres } from "~/models/genre";
 
 export function meta({}: Route.MetaArgs) {
@@ -46,12 +40,12 @@ export async function loader({ request }: Route.LoaderArgs) {
   return { artists, genres };
 }
 
-export async function action() {
-  let artist = await createArtists();
+// export async function action() {
+//   let artist = await createArtists();
 
-  console.log({ artist });
-  return null;
-}
+//   console.log({ artist });
+//   return null;
+// }
 
 interface Artist {
   id: number;
@@ -100,22 +94,22 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   // console.log({ genresArray });
 
-  let navigation = useNavigation();
-  let isSubmitting = navigation.state === "submitting";
+  // let navigation = useNavigation();
+  // let isSubmitting = navigation.state === "submitting";
 
   return (
     <main>
       <Search />
       <GenrePicker genres={genresArray} />
       <ArtistList artists={artists} />
-      <Form method="post">
+      {/* <Form method="post">
         <button
           type="submit"
           className="bg-emerald-500 hover:bg-emerald-700 transition ease-in-out duration-300 px-4 py-2 rounded-md active:scale-[.95]"
         >
           {isSubmitting ? "Creating..." : "Create artists"}
         </button>
-      </Form>
+      </Form> */}
     </main>
   );
 }
