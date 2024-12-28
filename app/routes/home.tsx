@@ -1,4 +1,4 @@
-import { getArtists } from "~/models/artist";
+import { createArtists, getArtists } from "~/models/artist";
 import type { Route } from "./+types/home";
 import {
   Form,
@@ -47,10 +47,9 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export async function action() {
-  // let formData = await request.formData();
-  // let artist = await createArtists();
+  let artist = await createArtists();
 
-  // console.log({ artist });
+  console.log({ artist });
   return null;
 }
 
@@ -109,14 +108,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <Search />
       <GenrePicker genres={genresArray} />
       <ArtistList artists={artists} />
-      {/* <Form method="post">
+      <Form method="post">
         <button
           type="submit"
           className="bg-emerald-500 hover:bg-emerald-700 transition ease-in-out duration-300 px-4 py-2 rounded-md active:scale-[.95]"
         >
           {isSubmitting ? "Creating..." : "Create artists"}
         </button>
-      </Form> */}
+      </Form>
     </main>
   );
 }
